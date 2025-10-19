@@ -2,11 +2,10 @@ package br.com.carstore.controller;
 
 import br.com.carstore.model.CarDTO;
 import br.com.carstore.service.CarService;
-import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -21,58 +20,20 @@ public class HomeController {
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("carDTO", new CarDTO());
-        return "index";
-    }
-
-    @GetMapping("/index")
-    public String indexTwo(Model model) {
-        model.addAttribute("carDTO", new CarDTO());
-        return "index";
-    }
-
-    @PostMapping("/cars")
-    public String createCar(@ModelAttribute @Valid CarDTO car, BindingResult result, Model model) {
-        System.out.println("Recebido: " + car.getName() + " - " + car.getColor());
-        System.out.println("ID recebido: " + car.getId());
-
-        if (result.hasErrors()) {
-            System.out.println("Erros de validação encontrados.");
-            return "index";
-        }
-
-        if (car.getId() != null && !car.getId().isEmpty()) {
-            System.out.println("Atualizando carro...");
-            carService.update(car.getId(), car);  // Chama update se ID existir
-        } else {
-            System.out.println("Salvando novo carro...");  // Agora isso deve ser chamado
-            carService.save(car);  // O ID será gerado no CarEntity
-        }
-
-        List<CarDTO> cars = carService.findAll();  // Busca a lista atualizada
-        System.out.println("Total de carros na lista: " + cars.size());
+        List<CarDTO> cars = carService.findAll();
         model.addAttribute("cars", cars);
-        return "dashboard";
+        return "public/dashboard";
     }
 
     @GetMapping("/cars")
     public String getAllCars(Model model) {
         List<CarDTO> cars = carService.findAll();
         model.addAttribute("cars", cars);
-        return "dashboard";
-    }
-
-    @PostMapping("/delete/{id}")
-    public String deleteCar(@PathVariable String id, Model model) {
-        carService.deleteById(id);
-        List<CarDTO> cars = carService.findAll();
-        model.addAttribute("cars", cars);
-        return "dashboard";
+        return "public/dashboard";
     }
 
     @GetMapping("/edit/{id}")
-    public String editCar(@PathVariable String id, Model model) {
-        // Lógica existente, assumindo que está ok
+    public String viewCarDetails(@PathVariable String id, Model model) {
         List<CarDTO> cars = carService.findAll();
         for (CarDTO car : cars) {
             if (car.getId().equals(id)) {
@@ -80,6 +41,6 @@ public class HomeController {
                 break;
             }
         }
-        return "index";
+        return "public/car-details";
     }
 }

@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 
 public class CarDTO {
 
-    private String id;  // ID não é inicializado aqui
+    private String id;
 
     @NotBlank(message = "O nome do carro é obrigatório")
     private String name;

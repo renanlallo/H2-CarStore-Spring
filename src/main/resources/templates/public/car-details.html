@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalhes do Carro</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
+</head>
+<body>
+<div th:replace="~{fragments :: navbar}"></div>
+<div class="container mt-5">
+    <h1>Detalhes do Carro</h1>
+    <p><strong>Nome:</strong> <span th:text="${carDTO.name}"></span></p>
+    <p><strong>Cor:</strong> <span th:text="${carDTO.color}"></span></p>
+    <a th:href="@{/cars}" class="btn btn-primary">Voltar</a>
+</div>
+<script th:src="@{/webjars/jquery/3.7.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

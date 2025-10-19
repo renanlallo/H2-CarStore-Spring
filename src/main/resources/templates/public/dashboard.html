@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Area pública, não logada</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
+    <style>
+        .highlighted { background-color: yellow; }
+    </style>
+</head>
+<body>
+<div th:replace="~{fragments :: navbar}"></div>
+<h1>Area pública, não logada</h1>
+<p>Para acessar a página logada e gerenciar a lista de carros (adicionar, editar, excluir), acesse <a th:href="@{/secured-page}">/secured-page</a>.</p>
+<div class="container mt-5">
+    <table class="table table-striped" id="carTable">
+        <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Cor</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="car : ${cars}" onclick="highlightRow(this)" style="cursor: pointer;">
+            <td th:text="${car.name}"></td>
+            <td th:text="${car.color}"></td>
+            <td>
+                <a th:href="@{'/edit/' + ${car.id}}">Visualizar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script th:src="@{/webjars/jquery/3.7.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
+<script>
+    function highlightRow(row) {
+        var rows = document.querySelectorAll('#carTable tbody tr');
+        rows.forEach(r => r.classList.remove('highlighted'));
+        row.classList.add('highlighted');
+    }
+</script>
+</body>
+</html>
